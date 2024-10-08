@@ -1,0 +1,22 @@
+<h4>About Page</h4>
+
+<%= form_with model: current_user.site do |f| %>
+  <%= hidden_field_tag :from, url_for(controller: 'mint_page') %>
+
+  <div class="form-check mb-3">
+    <%= f.check_box :about_page_enable, class: 'form-check-input' %>
+    <%= f.label :about_page_enable, 'Enable?', class: 'form-check-label' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :about_page_title, 'Title', class: 'form-label' %>
+    <%= f.text_field :about_page_title, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :about_page_content, 'Content', class: 'form-label' %>
+    <%= f.text_area :about_page_content, class: 'form-control', rows: '15' %>
+  </div>
+
+  <%= f.submit 'Save', class: 'btn btn-primary' %>
+<% end %>

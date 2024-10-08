@@ -1,0 +1,11 @@
+<p>Hi <%= @resource.first_name %>,</p>
+
+<p>Thank you for signing up with Radius.art. Confirm your email to start your journey by clicking the link below:</p>
+
+<p><%= link_to 'Confirm my email', confirmation_url(@resource, confirmation_token: @token) %></p>
+
+<p>If the link doesn't work, manually copy this URL into your browser:</p>
+
+<p><%= confirmation_url(@resource, confirmation_token: @token) %></p>
+
+<p>Enjoy!</p>

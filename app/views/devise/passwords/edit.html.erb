@@ -1,0 +1,33 @@
+<div class="card signup-container">
+  <%= render partial: 'layouts/devise_header' %>
+  <div class="card-body">
+    <h5 class="card-title">Change your password</h5>
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }, data: { turbo: false }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+      <%= f.hidden_field :reset_password_token %>
+
+      <div class="mb-3">
+        <%= f.label :email, class: 'form-label' %>
+        <%= f.email_field :email, autofocus: true, autocomplete: 'email', value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), class: 'form-control' %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :password, "New password", class: 'form-label' %>
+        <% if @minimum_password_length %>
+          <em>(<%= @minimum_password_length %> characters minimum)</em>
+        <% end %>
+        <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: 'form-control' %>
+      </div>
+
+      <div class="mb-3">
+        <%= f.label :password_confirmation, "Confirm new password", class: 'form-label' %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control' %>
+      </div>
+
+      <%= f.submit "Change my password", class: 'btn btn-primary float-end' %>
+    <% end %>
+  </div>
+  <div class="card-body pt-0">
+    <%= render "devise/shared/links" %>
+  </div>
+</div>

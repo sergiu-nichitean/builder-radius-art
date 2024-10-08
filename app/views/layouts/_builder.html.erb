@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row min-vh-100">
+    <%= render 'layouts/builder_left_menu' %>
+    <div class="col-sm-10 p-4">
+      <%= render 'layouts/alerts' %>
+      <div class="row">
+        <div class="col-sm-6">
+          <%= yield %>
+        </div>
+        <div class="col-sm-6">
+          <h4>Preview <a href="<%= CGI.unescape(@preview_url) %>" target="_blank" class="btn btn-primary ms-2"><i class="bi bi-box-arrow-up-right"></i></a></h4>
+
+          <div id="preview_img_container" class="border border-primary-subtle d-flex justify-content-center" style="min-height: 20em; position: relative;">
+            <div class="spinner-border" style="margin-top: 8em"></div>
+            <img id="preview_img" src="https://api.apiflash.com/v1/urltoimage?access_key=8cefd2b059184fc9a7a46317fcd1ff04&wait_until=page_loaded&full_page=true&width=1000&url=<%= @preview_url %>%3Fv%3D<%= current_user.site.preview_version.to_i %>" class="w-100" style="position: absolute; top: 0; left: 0;">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

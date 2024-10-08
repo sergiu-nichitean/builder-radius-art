@@ -1,0 +1,15 @@
+<div class="col-sm-2 d-none d-md-block bg-gray-100 pt-2" id="main_menu">
+  <ul class="nav nav-pills flex-column left-nav text-center">
+    <% if false %>
+      <li class="nav-item">
+        <%= link_to 'Transactions', transactions_path, class: "nav-link mt-1 #{@active_page == 'transactions' ? 'active' : ''}" %>
+      </li>
+    <% end %>
+    <li class="nav-item">
+      <%= link_to 'Help', help_path, class: "nav-link mt-1 #{@active_page == 'help' ? 'active' : ''}" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to 'My Account', edit_user_registration_path, class: "nav-link mt-1 #{@active_page == 'my_account' ? 'active' : ''}" %>
+    </li>
+  </ul>
+</div>

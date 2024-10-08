@@ -1,0 +1,83 @@
+<h4>NFT Creator: Create a limited edition image NFT</h4>
+
+<%= form_with model: @collection, url: '/collections' do |f| %>
+  <%= f.hidden_field :type, value: @collection_type %>
+
+  <h5 class="mt-4 mb-3 text-primary">NFT Details</h5>
+
+  <div class="mb-3">
+    <%= f.label :name, 'Collection name', class: 'form-label' %>
+    <%= f.text_field :name, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :max_supply, 'Supply', class: 'form-label' %>
+    <%= f.number_field :max_supply, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3" id="price_container">
+    <%= f.label :price_sol, 'Mint price (SOL)', class: 'form-label' %>
+    <%= f.text_field :price_sol, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3" id="price_container">
+    <%= f.label :price_sol, 'Mint price (SOL)', class: 'form-label' %>
+    <%= f.text_field :price_sol, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :treasury_wallet, 'Wallet for mint price', class: 'form-label' %>
+    <%= f.text_field :treasury_wallet, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :royalties_percent, 'Royalties percent', class: 'form-label' %>
+    <%= f.text_field :royalties_percent, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :royalties_wallet, 'Wallet for royalties', class: 'form-label' %>
+    <%= f.text_field :royalties_wallet, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :collection_description, 'Collection description', class: 'form-label' %>
+    <%= f.text_area :collection_description, class: 'form-control', rows: '5' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :collection_image, 'Collection image', class: 'form-label' %>
+    <% if @collection.collection_image_url %>
+      <p><img src="<%= @collection.collection_image_url %>" style="max-width: 200px;"></p>
+    <% end %>
+    <%= f.file_field :collection_image, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :description, 'NFT description', class: 'form-label' %>
+    <%= f.text_area :description, class: 'form-control', rows: '5' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :image, 'NFT image', class: 'form-label' %>
+    <% if @collection.image_url %>
+      <p><img src="<%= @collection.image_url %>" style="max-width: 200px;"></p>
+    <% end %>
+    <%= f.file_field :image, class: 'form-control' %>
+  </div>
+
+  <%= f.submit @collection.id.present? ? 'Save' : 'Create', class: 'btn btn-primary' %>
+<% end %>
+
+<% if @collection.id.present? && false %>
+  <h5 class="mt-4 mb-3 text-primary">Mint NFT</h5>
+
+  <%= form_with url: { controller: 'collections', action: 'mint', id: @collection }, method: :post do |f| %>
+    <div class="mb-3">
+      <%= f.label :receiver_wallet, 'Receiver wallet address', class: 'form-label' %>
+      <%= f.text_field :receiver_wallet, class: 'form-control' %>
+    </div>
+
+    <%= f.submit 'Mint now', class: 'btn btn-primary' %>
+  <% end %>
+<% end %>

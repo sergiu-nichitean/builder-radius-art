@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="author" content="Radius.art Builder" />
+    <meta name="description" content="No-code builder for NFT websites." />
+    <meta property="og:title" content="<%= @page_title ? "#{@page_title} - " : '' %>Radius.art Builder">
+    <meta property="og:type" content="article" />
+    <meta property="og:description" content="No-code builder for NFT websites.">
+    <meta property="og:image" content="/images/og-image-simple.jpg">
+    <meta property="og:url" content="https://<%= Rails.configuration.app_domain %>">
+    <meta name="twitter:card" content="summary_large_image">
+    <title><%= @page_title ? "#{@page_title} - " : '' %>Radius.art Builder</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/icons/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/icons/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/images/icons/favicon/site.webmanifest">
+    <link rel="mask-icon" href="/images/icons/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#00aba9">
+    <meta name="theme-color" content="#285d61">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+
+    <script>
+      window.Prism = window.Prism || {};
+      window.Prism.manual = true;
+    </script>
+
+    <%= javascript_importmap_tags %>
+    <%= javascript_include_tag 'bootstrap.bundle.min' %>
+    <%= javascript_include_tag 'jquery-3.6.0.min' %>
+    <%= javascript_include_tag 'jquery-ui.min' %>
+    <%= javascript_include_tag 'jquery-ujs.min' %>
+    <%= javascript_include_tag 'builder' %>
+    <%= javascript_include_tag 'prism' %>
+
+    <% if @include_payments_js %>
+      <%= javascript_include_tag 'https://js.stripe.com/v3/' %>
+      <%= javascript_include_tag 'payments' %>
+    <% end %>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+  </head>
+
+  <body class="<%= user_signed_in? ? 'signed-in' : 'visitor' %>">
+    <% if user_signed_in? %>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+        <div class="container">
+          <a class="navbar-brand" href="/">
+            <img src="/images/logo_title_sml.svg">
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+            <ul class="navbar-nav float-end">
+              <li class="nav-item">
+                <%= link_to 'NFT Creator', root_path, class: "nav-link #{@active_page == 'nft_creator' ? 'active' : ''}" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to 'Help', help_path, class: "nav-link #{@active_page == 'help' ? 'active' : ''}" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to 'Profile', edit_user_registration_path, class: "nav-link #{@active_page == 'my_account' ? 'active' : ''}" %>
+              </li>
+              <% if false %>
+                <li class="nav-item">
+                  <strong><%= link_to "#{current_user.credits} credits", new_payment_path, class: "nav-link", data: { turbo: false } %></strong>
+                </li>
+              <% end %>
+              <li class="nav-item">
+                <%= link_to 'Log out', destroy_user_session_path, class: 'nav-link', method: :delete %>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    <% end %>
+    <div class="container">
+      <%= render 'layouts/alerts' %>
+      <div class="row">
+        <div class="col-sm-<%= @uses_right_column ? '8' : '12' %> p-4">
+          <%= yield %>
+        </div>
+        <% if @uses_right_column %>
+          <div class="col-sm-4 p-4">
+            <h4>Preview <% if @use_preview_api %><a href="<%= CGI.unescape(@preview_url) %>" target="_blank" class="btn btn-primary ms-2"><i class="bi bi-box-arrow-up-right"></i></a><% end %></h4>
+
+            <div id="preview_img_container" class="border border-primary-subtle d-flex justify-content-center" style="min-height: 20em; position: relative;">
+              <div class="spinner-border" style="margin-top: 8em"></div>
+              <% if @use_preview_api %>
+                <% preview_url = "https://api.apiflash.com/v1/urltoimage?access_key=8cefd2b059184fc9a7a46317fcd1ff04&wait_until=page_loaded&full_page=true&width=1000&url=#{@preview_url}%3Fv%3D#{current_user.site.preview_version.to_i}" %>
+              <% else %>
+                <% preview_url = @preview_url %>
+              <% end %>
+              <img id="preview_img" src="<%= preview_url %>" class="w-100" style="position: absolute; top: 0; left: 0;">
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <div class="col-md-4 d-flex align-items-center">
+          <span class="mb-3 mb-md-0 text-body-secondary">Copyright © 2024 by Radius.art</span>
+        </div>
+
+        <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+          <li class="ms-3">
+            <a href="https://x.com/radius__art" target="_blank">
+              <img src="https://assets-global.website-files.com/660e48d8ce54ab6b8b5c1ede/660e4c95ce54ab6b8b5f41f8_vector3.svg">
+            </a>
+          </li>
+          <li class="ms-3">
+            <a href="https://www.youtube.com/@radius__art" target="_blank">
+              <img src="https://assets-global.website-files.com/660e48d8ce54ab6b8b5c1ede/660e4c940e242f9c38b041a7_vector4.svg">
+            </a>
+          </li>
+        </ul>
+      </footer>
+    </div>
+  </body>
+</html>

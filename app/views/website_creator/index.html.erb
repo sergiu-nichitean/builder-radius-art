@@ -1,0 +1,25 @@
+<%= render partial: 'layouts/builder_tabs' %>
+
+<h4><%= current_user.site&.finished? ? 'Edit' : 'Create' %> Your NFT Mint Website</h4>
+
+<% if current_user.site %>
+  <% if current_user.site.pending? %>
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p>Creating your website, please wait...</p>
+    <script>pollForSite(<%= current_user.site.id %>)</script>
+  <% elsif current_user.site.error? %>
+    <p class="text-danger">Error creating your website: <%= current_user.site.error %></p>
+
+    <%= link_to 'Retry', sites_retry_path, class: 'btn btn-danger', method: :post %>
+  <% else %>
+    <%= render partial: 'edit_form' %>
+  <% end %>
+<% else %>
+  <% if current_user.collection %>
+    <%= render partial: 'new_form' %>
+  <% else %>
+    <p>Please <%= link_to 'create an NFT collection', nft_creator_path %> before creating a mint website.</p>
+  <% end %>
+<% end %>

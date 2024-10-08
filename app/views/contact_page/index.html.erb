@@ -1,0 +1,22 @@
+<h4>Contact Page</h4>
+
+<%= form_with model: current_user.site do |f| %>
+  <%= hidden_field_tag :from, url_for(controller: 'mint_page') %>
+
+  <div class="form-check mb-3">
+    <%= f.check_box :contact_page_enable, class: 'form-check-input' %>
+    <%= f.label :contact_page_enable, 'Enable?', class: 'form-check-label' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :contact_email, 'Contact email address', class: 'form-label' %>
+    <%= f.text_field :contact_email, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :contact_page_content, 'Content', class: 'form-label' %>
+    <%= f.text_area :contact_page_content, class: 'form-control', rows: '15' %>
+  </div>
+
+  <%= f.submit 'Save', class: 'btn btn-primary' %>
+<% end %>

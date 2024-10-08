@@ -1,0 +1,19 @@
+<% unless @current_user.collection %>
+  <a class="btn btn-info float-end" href="/">Back</a>
+<% end %>
+
+<ul class="nav nav-pills mb-4">
+  <li class="nav-item">
+    <a class="nav-link ps-4 pe-4<%= @active_page == 'nft_creator' ? ' active' : '' %>" href="/nft_creator/<%= @path_type %>">NFT</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link ps-4 pe-4<%= @active_page == 'website_creator' ? ' active' : '' %>" href="/website_creator/<%= @path_type %>">Website</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link ps-4 pe-4<%= @active_page == 'tokengating' ? ' active' : '' %><%= current_user.site&.finished? ? '' : ' disabled' %>" href="/tokengating">Tokengating</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link ps-4 pe-4<%= @active_page == 'blink' ? ' active' : '' %><%= current_user.site&.finished? ? '' : ' disabled' %>" href="/blink">Blink</a>
+  </li>
+</ul>
+

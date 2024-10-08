@@ -1,0 +1,24 @@
+<div class="col-sm-2 d-none d-md-block bg-gray-100 pt-2" id="main_menu">
+  <ul class="nav nav-pills flex-column left-nav text-center">
+    <li class="nav-item">
+      <%= link_to 'Your Website', root_path, class: "nav-link mt-1 #{@active_page == 'site_identity' ? 'active' : ''}" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to 'NFT Details', nft_details_path, class: "nav-link mt-1 #{@active_page == 'nft_details' ? 'active' : ''}" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to 'Mint Page', mint_page_path, class: "nav-link mt-1 #{@active_page == 'mint_page' ? 'active' : ''}" %>
+    </li>
+    <% if false %>
+      <li class="nav-item">
+        <%= link_to 'About Page', about_page_path, class: "nav-link mt-1 #{@active_page == 'about_page' ? 'active' : ''}" %>
+      </li>
+      <li class="nav-item">
+        <%= link_to 'Contact Page', contact_page_path, class: "nav-link mt-1 #{@active_page == 'contact_page' ? 'active' : ''}" %>
+      </li>
+      <li class="nav-item">
+        <%= link_to 'Tokengating', tokengating_path, class: "nav-link mt-1 #{@active_page == 'tokengating' ? 'active' : ''}" %>
+      </li>
+    <% end %>
+  </ul>
+</div>

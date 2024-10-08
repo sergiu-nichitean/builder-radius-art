@@ -1,0 +1,24 @@
+<ul class="nav nav-pills mb-4">
+  <li class="nav-item">
+    <a class="nav-link ps-4 pe-4" href="/nft_creator">NFT</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link ps-4 pe-4" href="/website_creator">Website</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link ps-4 pe-4" href="/tokengating">Tokengating</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active ps-4 pe-4" href="/blink">Blink</a>
+  </li>
+</ul>
+
+<h4>Share Your Blink</h4>
+
+<% if current_user.site&.finished? %>
+  <textarea readonly class="form-control w-100 mb-4" rows="5" onclick="this.select()">https://dial.to/?action=solana-action:https://actions.radius.art/api/mint/<%= current_user.site.remote_id %></textarea>
+
+  <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-url="https://dial.to/?action=solana-action:https://actions.radius.art/api/mint/<%= current_user.site.remote_id %>" data-show-count="false">X Post</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<% else %>
+  <p>Please create a mint website to get a blink.</p>
+<% end %>

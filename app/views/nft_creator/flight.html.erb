@@ -1,0 +1,132 @@
+<ul class="nav nav-pills mb-4">
+  <li class="nav-item">
+    <a class="nav-link active ps-4 pe-4" aria-current="page" href="/nft_creator/flight">NFT</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link ps-4 pe-4" href="/website_creator/flight">Website</a>
+  </li>
+</ul>
+
+<h4>NFT Creator: Create an NFT for flight inventory</h4>
+
+<%= form_with model: @collection, url: @form_url do |f| %>
+  <%= f.hidden_field :type, value: @collection_type %>
+
+  <h5 class="mt-4 mb-3 text-primary">Flight Details</h5>
+
+  <div class="mb-3">
+    <%= f.label :flight_number, 'Flight number', class: 'form-label' %>
+    <%= f.text_field :flight_number, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :origin, 'Origin', class: 'form-label' %>
+    <%= f.select(:origin, ['Please select...', 'Istanbul (IST)', 'London Heathrow (LHR)', 'Paris Charles de Gaulle (CDG)', 'Amsterdam Schiphol (AMS)', 'Adolfo Suárez Madrid–Barajas (MAD)', 'Frankfurt (FRA)', 'Barcelona-El Prat (BCN)', 'London Gatwick (LGW)', 'Munich (MUC)', 'Rome-Fiumicino (FCO)'], {}, class: 'form-select') %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :destination, 'Destination', class: 'form-label' %>
+    <%= f.select(:destination, ['Please select...', 'Istanbul (IST)', 'London Heathrow (LHR)', 'Paris Charles de Gaulle (CDG)', 'Amsterdam Schiphol (AMS)', 'Adolfo Suárez Madrid–Barajas (MAD)', 'Frankfurt (FRA)', 'Barcelona-El Prat (BCN)', 'London Gatwick (LGW)', 'Munich (MUC)', 'Rome-Fiumicino (FCO)'], {}, class: 'form-select',) %>
+  </div>
+
+  <div class="mb-3">
+    <div class="row">
+      <div class="col-md-6">
+        <%= f.label :departure_date, 'Departure date', class: 'form-label' %>
+        <%= f.text_field :departure_date, class: 'form-control datepicker', autocomplete: 'off' %>
+      </div>
+      <div class="col-md-6">
+        <%= f.label :departure_time, 'Departure time', class: 'form-label' %>
+        <%= f.text_field :departure_time, class: 'form-control timepicker', autocomplete: 'off' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <div class="row">
+      <div class="col-md-6">
+        <%= f.label :arrival_date, 'Arrival date', class: 'form-label' %>
+        <%= f.text_field :arrival_date, class: 'form-control datepicker', autocomplete: 'off' %>
+      </div>
+      <div class="col-md-6">
+        <%= f.label :arrival_time, 'Arrival time', class: 'form-label' %>
+        <%= f.text_field :arrival_time, class: 'form-control timepicker', autocomplete: 'off' %>
+      </div>
+    </div>
+  </div>
+
+  <h5 class="mt-4 mb-3 text-primary">NFT Details</h5>
+
+  <% if false %>
+    <div class="mb-3">
+      <%= f.label :name, 'Collection name', class: 'form-label' %>
+      <%= f.text_field :name, class: 'form-control' %>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :max_supply, 'Supply', class: 'form-label' %>
+    <%= f.number_field :max_supply, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3" id="price_container">
+    <%= f.label :price_sol, 'Mint price (SOL)', class: 'form-label' %>
+    <%= f.text_field :price_sol, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :treasury_wallet, 'Wallet for mint price', class: 'form-label' %>
+    <%= f.text_field :treasury_wallet, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :royalties_percent, 'Royalties percent', class: 'form-label' %>
+    <%= f.text_field :royalties_percent, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :royalties_wallet, 'Wallet for royalties', class: 'form-label' %>
+    <%= f.text_field :royalties_wallet, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :collection_description, 'Collection description', class: 'form-label' %>
+    <%= f.text_area :collection_description, class: 'form-control', rows: '5' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :collection_image, 'Collection image', class: 'form-label' %>
+    <% if @collection.collection_image_url %>
+      <p><img src="<%= @collection.collection_image_url %>" style="max-width: 200px;"></p>
+    <% end %>
+    <%= f.file_field :collection_image, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :description, 'NFT description', class: 'form-label' %>
+    <%= f.text_area :description, class: 'form-control', rows: '5' %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :image, 'NFT image', class: 'form-label' %>
+    <% if @collection.image_url %>
+      <p><img src="<%= @collection.image_url %>" style="max-width: 200px;"></p>
+    <% end %>
+    <%= f.file_field :image, class: 'form-control' %>
+  </div>
+
+  <%= f.submit @collection.id.present? ? 'Save' : 'Create', class: 'btn btn-primary' %>
+<% end %>
+
+<% if @collection.id.present? && false %>
+  <h5 class="mt-4 mb-3 text-primary">Mint NFT</h5>
+
+  <%= form_with url: { controller: 'collections', action: 'mint', id: @collection }, method: :post do |f| %>
+    <div class="mb-3">
+      <%= f.label :receiver_wallet, 'Receiver wallet address', class: 'form-label' %>
+      <%= f.text_field :receiver_wallet, class: 'form-control' %>
+    </div>
+
+    <%= f.submit 'Mint now', class: 'btn btn-primary' %>
+  <% end %>
+<% end %>
